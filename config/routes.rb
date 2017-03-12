@@ -3,5 +3,8 @@ Rails.application.routes.draw do
 
 	resources :todos
 
+	get '/todosOf/:selectedTodos' => 'todos#todosOf'
+	post '/todos/complete' => 'todos#complete'
+
 	resources :logs
 end
