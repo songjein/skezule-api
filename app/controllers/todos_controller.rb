@@ -1,5 +1,10 @@
 class TodosController < ApplicationController
 	def index
+		todos = Todo.all
+		render json: todos
+	end
+
+	def notCompletedList
 		todos = Todo.where(isCompleted: false)
 		render json: todos
 	end
