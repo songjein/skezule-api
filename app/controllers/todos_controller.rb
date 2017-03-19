@@ -1,12 +1,24 @@
 class TodosController < ApplicationController
 	def index
+		ret = []
 		todos = Todo.all
-		render json: todos
+		todos.each do |todo|
+			tmp_todo = todo.as_json
+			tmp_todo[:tag_list] = todo.tag_list
+			ret << tmp_todo
+		end
+		render json: ret 
 	end
 
 	def notCompletedList
+		ret = []
 		todos = Todo.where(isCompleted: false)
-		render json: todos
+		todos.each do |todo|
+			tmp_todo = todo.as_json
+			tmp_todo[:tag_list] = todo.tag_list
+			ret << tmp_todo
+		end
+		render json: ret 
 	end
 
 	def todosOf
