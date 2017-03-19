@@ -22,6 +22,7 @@ class TodosController < ApplicationController
 		todo = Todo.new
 		todo.goal = params[:goal]
 		todo.from = params[:from]
+		todo.tag_list = params[:category]
 		todo.to = params[:to]
 		todo.isCompleted = false
 		todo.save
