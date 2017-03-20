@@ -50,6 +50,17 @@ class TodosController < ApplicationController
 
 		selectedTodos.each do |id|
 			todo = Todo.find(id)
+			# 확신 : 남은 todo의 from은 무조건 오늘 이후다. 로그인 할 때, 미완 계획 체크 후, from을 다 오늘로 맞출거다
+			if Date.today.month == todo.from.month and Date.today.day < todo.to.day
+				# 여기 들어오는 애들은 반복 계획(적어도 오늘 이후까지 반복이 되는 아이들)
+				# 해당 todo의 from을 1 증가 시키고
+				# copy todo를 만들어 isCompleted시키고, copy todo의 to를 오늘로 만든다
+			elsif Date.today.month == todo.from.month and Date.today.day == todo.to.day and todo.from == todo.to
+				# 1일만 남은 계획	
+				# 해당 todo를 isCompleted 시키면 된다
+			else 
+				# exception?
+			end
 			todo.isCompleted = true
 			todo.log_id = @log.id
 			todo.save
