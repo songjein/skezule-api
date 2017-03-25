@@ -8,4 +8,6 @@ Rails.application.routes.draw do
 	get '/notCompletedList' => 'todos#notCompletedList'
 
 	resources :logs
+
+	resources :memos
 end
