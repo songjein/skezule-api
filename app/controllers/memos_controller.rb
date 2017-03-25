@@ -1,4 +1,8 @@
 class MemosController < ApplicationController
+	def index
+		render json: Memo.first
+	end
+
 	def create
 		if Memo.first
 			memo = Memo.first
