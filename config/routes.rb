@@ -10,4 +10,8 @@ Rails.application.routes.draw do
 	resources :logs
 
 	resources :memos
+
+	resources :users
+
+	post 'authenticate' => 'authentication#authenticate'
 end
