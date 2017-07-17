@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170717052626) do
+ActiveRecord::Schema.define(version: 20170717053601) do
 
   create_table "logs", force: :cascade do |t|
     t.text     "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
   create_table "taggings", force: :cascade do |t|

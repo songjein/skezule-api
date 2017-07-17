@@ -1,7 +1,8 @@
 class TodosController < ApplicationController
+	# 완료/비완료 계획 모두 보여주기
 	def index
 		ret = []
-		todos = Todo.all
+		todos = @current_user.todos 
 		todos.each do |todo|
 			tmp_todo = todo.as_json
 			tmp_todo[:tag_list] = todo.tag_list
@@ -9,10 +10,11 @@ class TodosController < ApplicationController
 		end
 		render json: ret 
 	end
-
+	
+	# list 컴포넌트에 미완료 계획을 보여줄 때 호출
 	def notCompletedList
 		ret = []
-		todos = Todo.where(isCompleted: false)
+		todos = @current_user.todos.where(isCompleted: false)
 		todos.each do |todo|
 			tmp_todo = todo.as_json
 			tmp_todo[:tag_list] = todo.tag_list
@@ -21,6 +23,7 @@ class TodosController < ApplicationController
 		render json: ret 
 	end
 
+	# complete 하기 전에, 계획 텍스트 가져오는 작업
 	def todosOf
 		ret = []
 		selectedTodos = params[:selectedTodos].split(',')
@@ -37,6 +40,7 @@ class TodosController < ApplicationController
 		todo.tag_list = params[:category]
 		todo.to = params[:to]
 		todo.isCompleted = false
+		todo.user_id = @current_user.id
 		todo.save
 		render json: todo
 	end

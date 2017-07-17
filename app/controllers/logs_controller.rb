@@ -1,6 +1,6 @@
 class LogsController < ApplicationController
 	def index
-		logs = Log.all
+		logs = @current_user.logs
 		render json: logs
 	end
 end
