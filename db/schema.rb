@@ -10,16 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170507163937) do
+ActiveRecord::Schema.define(version: 20170717052626) do
 
   create_table "logs", force: :cascade do |t|
     t.text     "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "memos", force: :cascade do |t|
-    t.text     "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -57,7 +51,9 @@ ActiveRecord::Schema.define(version: 20170507163937) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "log_id"
+    t.integer  "user_id"
     t.index ["log_id"], name: "index_todos_on_log_id"
+    t.index ["user_id"], name: "index_todos_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -66,6 +62,7 @@ ActiveRecord::Schema.define(version: 20170507163937) do
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.text     "memo"
   end
 
 end

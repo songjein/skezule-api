@@ -2,7 +2,6 @@ class UsersController < ApplicationController
 	require 'digest/sha1'
 
 	def show
-		render json: @current_user 
 	end
 	
 	def create 
