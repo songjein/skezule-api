@@ -1,6 +1,7 @@
 class Todo < ApplicationRecord
 	belongs_to :user
-	belongs_to :log, optional: true
+	
+	has_many :complete_todos
 
 	acts_as_taggable_on :tags
 end

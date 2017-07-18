@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170717053601) do
+ActiveRecord::Schema.define(version: 20170718070204) do
+
+  create_table "complete_todos", force: :cascade do |t|
+    t.integer  "todo_id"
+    t.integer  "log_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["log_id"], name: "index_complete_todos_on_log_id"
+    t.index ["todo_id"], name: "index_complete_todos_on_todo_id"
+  end
 
   create_table "logs", force: :cascade do |t|
     t.text     "body"
@@ -52,9 +61,7 @@ ActiveRecord::Schema.define(version: 20170717053601) do
     t.boolean  "isCompleted"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.integer  "log_id"
     t.integer  "user_id"
-    t.index ["log_id"], name: "index_todos_on_log_id"
     t.index ["user_id"], name: "index_todos_on_user_id"
   end
 

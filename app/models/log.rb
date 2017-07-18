@@ -1,4 +1,5 @@
 class Log < ApplicationRecord
-	has_many :todos
+	has_many :complete_todos
+
 	belongs_to :user
 end
