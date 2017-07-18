@@ -68,6 +68,7 @@ class TodosController < ApplicationController
 		@log = Log.new
 		@log.body = params[:log]
 		@log.user_id = @current_user.id
+		@log.color = params[:color]
 		@log.save
 
 		selectedTodos.each do |id|

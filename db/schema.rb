@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718070204) do
+ActiveRecord::Schema.define(version: 20170718074053) do
 
   create_table "complete_todos", force: :cascade do |t|
     t.integer  "todo_id"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20170718070204) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
+    t.string   "color"
     t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
