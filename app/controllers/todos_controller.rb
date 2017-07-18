@@ -14,12 +14,20 @@ class TodosController < ApplicationController
 	# list 컴포넌트에 미완료 계획을 보여줄 때 호출
 	# 미완료 라는 것의 표현이 약간 애매할 수도 있다. (중간에 의미의 변경이 있었기 때문에)
 	# 여기서 '미완료'란 아직 계획 달성의 여부가 남아있는 것을 의미한다
-	# TODO: 사실 여기서 추가로 complete_todos가중 오늘자 완료 기록이 있으면 제외해야된다 
 	def notCompletedList
 		ret = []
 		# 목표의 to 날짜가, 오늘 이후(포함)인 것들 만을 보여준다
 		todos = @current_user.todos.each do |t|
-			if t.to >= Date.today
+			# 계획의 달성 목록 중에서, 오늘 달성한게 있다면 제외시켜야 됌!
+			already_done_today = false
+			t.complete_todos.each do |c|
+				if c.created_at.to_date	== Date.today.to_date
+					already_done_today = true
+					break
+				end
+			end
+
+			if not already_done_today and t.to >= Date.today
 				tmp_todo = t.as_json
 				tmp_todo[:tag_list] = t.tag_list
 				ret << tmp_todo
@@ -51,6 +59,8 @@ class TodosController < ApplicationController
 		todo.tag_list = params[:category]
 		todo.to = params[:to]
 		todo.isCompleted = false
+		todo.color = params["color"]
+		todo.weight = params["weight"]
 		todo.user_id = @current_user.id
 		todo.save
 		render json: todo
