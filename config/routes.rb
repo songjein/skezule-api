@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 	get '/todosOf/:selectedTodos' => 'todos#todosOf'
 	get '/notCompletedList' => 'todos#notCompletedList'
 
+	get '/tags' => 'todos#tags'
+
 	resources :logs
 
 	resources :memos

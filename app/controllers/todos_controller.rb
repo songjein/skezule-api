@@ -1,19 +1,31 @@
 class TodosController < ApplicationController
-	# 완료/비완료 계획 모두 보여주기
+	# 완료/비완료 계획 모두 보여주기 
 	def index
 		ret = []
 		todos = @current_user.todos 
 		todos.each do |todo|
 			tmp_todo = todo.as_json
 			tmp_todo[:tag_list] = todo.tag_list
+			tmp_todo[:rate] = todo.complete_todos.length.to_f / ((todo.to.to_date - todo.from.to_date) + 1).to_f
+			puts tmp_todo[:rate]
 			ret << tmp_todo
 		end
 		render json: ret 
 	end
 	
+	def tags
+		ret = []
+		@current_user.todos.each do |t|
+			ret += t.tag_list
+		end
+		
+		render json: ret.uniq
+	end
+	
 	# list 컴포넌트에 미완료 계획을 보여줄 때 호출
 	# 미완료 라는 것의 표현이 약간 애매할 수도 있다. (중간에 의미의 변경이 있었기 때문에)
 	# 여기서 '미완료'란 아직 계획 달성의 여부가 남아있는 것을 의미한다
+	# TODO: 오늘 달성할 수 없는, 나중의 계획에 대한 처리
 	def notCompletedList
 		ret = []
 		# 목표의 to 날짜가, 오늘 이후(포함)인 것들 만을 보여준다
@@ -56,8 +68,10 @@ class TodosController < ApplicationController
 		todo = Todo.new
 		todo.goal = params[:goal]
 		todo.from = params[:from]
+		todo.from = todo.from + 9.hours
 		todo.tag_list = params[:category]
 		todo.to = params[:to]
+		todo.to = todo.to + 9.hours
 		todo.isCompleted = false
 		todo.color = params["color"]
 		todo.weight = params["weight"]
