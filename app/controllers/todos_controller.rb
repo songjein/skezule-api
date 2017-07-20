@@ -6,8 +6,7 @@ class TodosController < ApplicationController
 		todos.each do |todo|
 			tmp_todo = todo.as_json
 			tmp_todo[:tag_list] = todo.tag_list
-			tmp_todo[:rate] = todo.complete_todos.length.to_f / ((todo.to.to_date - todo.from.to_date) + 1).to_f
-			puts tmp_todo[:rate]
+			tmp_todo[:rate] = (todo.complete_todos.length.to_f / ((todo.to.to_date - todo.from.to_date) + 1).to_f * 100).to_i
 			ret << tmp_todo
 		end
 		render json: ret 
@@ -18,7 +17,6 @@ class TodosController < ApplicationController
 		@current_user.todos.each do |t|
 			ret += t.tag_list
 		end
-		
 		render json: ret.uniq
 	end
 	
@@ -42,6 +40,7 @@ class TodosController < ApplicationController
 			if not already_done_today and t.to >= Date.today
 				tmp_todo = t.as_json
 				tmp_todo[:tag_list] = t.tag_list
+				tmp_todo[:rate] = ((t.complete_todos.length.to_f / ((t.to.to_date - t.from.to_date) + 1).to_f) * 100).to_i
 				ret << tmp_todo
 			end
 			# 효율을 위해서 else 인 todo는 isCompleted을 false로 만들고
