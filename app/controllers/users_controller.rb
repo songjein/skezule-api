@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+	skip_before_action :authenticate_request
+
 	require 'digest/sha1'
 
 	def show
@@ -6,12 +8,16 @@ class UsersController < ApplicationController
 	
 	def create 
 		user = User.new
-		user.uid = params[:uid]
+		user.user_id = params[:user_id]
 		user.name = params[:name]
-		user.salt = BCrypt::Engine.generate_salt
-		user.password = BCrypt::Engine.hash_secret(params[:password], user.salt)
-		user.save
-		render json: user
+		user.password = params[:password]
+		user.password_confirmation = params[:password_confirmation]
+
+		if user.save
+			render json: user
+		else
+			render json: { "error": user.errors.full_messages }
+		end
 	end
 
 end
